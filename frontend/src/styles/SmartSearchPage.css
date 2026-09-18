@@ -1,0 +1,304 @@
+.smart-search-page {
+  min-height: 100vh;
+  padding: 48px 60px;
+  background: #f8f8fb;
+}
+
+.smart-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 35px;
+}
+
+.smart-search-header h1 {
+  margin: 6px 0 8px;
+  font-size: 34px;
+}
+
+.smart-search-header p {
+  color: #777;
+  margin: 0;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #8b5cf6 !important;
+}
+
+.ai-search-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 20px;
+  background: #f0eaff;
+  color: #7c3aed;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.smart-search-box {
+  max-width: 900px;
+  margin-bottom: 35px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 18px 22px;
+
+  background: white;
+  border: 1px solid #e4e4eb;
+  border-radius: 14px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+}
+
+.smart-search-box svg {
+  color: #888;
+  flex-shrink: 0;
+}
+
+.smart-search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+}
+
+.clear-search {
+  border: none;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+}
+
+.search-suggestions {
+  max-width: 900px;
+}
+
+.search-suggestions > p {
+  color: #777;
+  font-size: 14px;
+}
+
+.suggestion-list {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.suggestion-list button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 11px 15px;
+
+  background: white;
+  border: 1px solid #e5e5eb;
+  border-radius: 10px;
+
+  cursor: pointer;
+  color: #444;
+}
+
+.suggestion-list button:hover {
+  border-color: #a78bfa;
+  color: #7c3aed;
+}
+
+.search-results {
+  max-width: 900px;
+}
+
+.results-header {
+  margin-bottom: 20px;
+}
+
+.results-header span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #888;
+}
+
+.results-header h2 {
+  margin: 6px 0;
+  font-size: 22px;
+}
+
+.search-result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-result-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  padding: 20px;
+
+  background: white;
+  border: 1px solid #e7e7ed;
+  border-radius: 14px;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.search-result-card:hover {
+  transform: translateY(-2px);
+  border-color: #c4b5fd;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.result-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #f0eaff;
+  color: #7c3aed;
+}
+
+.result-content {
+  flex: 1;
+}
+
+.result-content h3 {
+  margin: 0 0 7px;
+  font-size: 17px;
+}
+
+.result-date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #999;
+  font-size: 12px;
+}
+
+.result-summary {
+  margin: 10px 0;
+
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.result-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.result-tags span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 9px;
+
+  background: #f5f5f8;
+  border-radius: 6px;
+
+  font-size: 11px;
+  color: #666;
+}
+
+.result-arrow {
+  margin-top: 10px;
+  color: #aaa;
+}
+
+.search-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: #999;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #e7e7ed;
+}
+
+.search-empty h3 {
+  color: #444;
+  margin: 15px 0 6px;
+}
+
+.search-empty p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.search-mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.search-mode-toggle button {
+    border: 1px solid #ddd;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.search-mode-toggle button.active {
+    background: #111;
+    color: white;
+    border-color: #111;
+}
+
+.search-mode-toggle button:hover {
+    transform: translateY(-1px);
+}
+
+
+.search-mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.search-mode-toggle button {
+  border: 1px solid #ddd;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.search-mode-toggle button.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+.search-mode-toggle button:hover {
+  transform: translateY(-1px);
+}
+
+.similarity-score {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.7;
+}

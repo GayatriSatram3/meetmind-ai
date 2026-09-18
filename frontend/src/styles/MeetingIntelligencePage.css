@@ -1,0 +1,560 @@
+/* ================================
+   Meeting Intelligence Page
+================================ */
+
+.intelligence-page {
+  min-height: 100vh;
+  background: #f7f8fc;
+  color: #171923;
+  padding: 32px 48px 60px;
+}
+
+
+/* ================================
+   Header
+================================ */
+
+.intelligence-header {
+  max-width: 1180px;
+  margin: 0 auto 32px;
+}
+
+.intelligence-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  background: transparent;
+
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  margin-bottom: 28px;
+}
+
+.intelligence-back:hover {
+  color: #171923;
+}
+
+.intelligence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: #f0ebff;
+  color: #7048d8;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  margin-bottom: 14px;
+}
+
+.intelligence-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+
+.intelligence-title h1 {
+  margin: 0;
+
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+
+  color: #151622;
+}
+
+.intelligence-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  color: #737784;
+
+  font-size: 14px;
+}
+
+.intelligence-meta span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+/* ================================
+   Main Content
+================================ */
+
+.intelligence-content {
+  max-width: 1180px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+}
+
+
+/* ================================
+   Cards
+================================ */
+
+.intelligence-card {
+  background: #ffffff;
+
+  border: 1px solid #e9eaf0;
+  border-radius: 18px;
+
+  padding: 26px;
+
+  box-shadow:
+    0 4px 18px rgba(20, 24, 40, 0.04);
+
+  margin-bottom: 22px;
+}
+
+.intelligence-card:last-child {
+  margin-bottom: 0;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #7651d6;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+
+  margin-bottom: 13px;
+}
+
+.intelligence-card h2 {
+  margin: 0 0 12px;
+
+  font-size: 20px;
+  letter-spacing: -0.02em;
+
+  color: #181923;
+}
+
+.intelligence-card > p {
+  margin: 0;
+
+  color: #656a78;
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+
+/* ================================
+   AI Summary
+================================ */
+
+.summary-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #7c5ce2,
+    #b08cff
+  );
+}
+
+.summary-text {
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+
+  color: #3f4350 !important;
+}
+
+
+/* ================================
+   Action Items
+================================ */
+
+.action-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 16px;
+
+  border: 1px solid #ececf2;
+  border-radius: 14px;
+
+  background: #fafafd;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.action-item:hover {
+  transform: translateY(-2px);
+
+  border-color: #ddd5f7;
+
+  box-shadow:
+    0 8px 22px rgba(60, 40, 100, 0.07);
+}
+
+.action-item-check {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #eee9ff;
+  color: #7551d7;
+}
+
+.action-item-content {
+  flex: 1;
+}
+
+.action-item-content h3 {
+  margin: 1px 0 9px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #20212b;
+}
+
+.action-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.action-item-meta span {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 7px;
+
+  background: #f0f1f5;
+
+  color: #656a76;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* ================================
+   Decisions
+================================ */
+
+.decisions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.decision-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: #f8f7fc;
+
+  border: 1px solid #ebe8f5;
+}
+
+.decision-number {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #e9e2ff;
+  color: #6844c8;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.decision-item p {
+  margin: 5px 0 0;
+
+  color: #424653;
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* ================================
+   Responsibilities
+================================ */
+
+.responsibilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.responsibility-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+
+  padding: 15px;
+
+  border: 1px solid #ececf1;
+  border-radius: 14px;
+
+  background: #ffffff;
+}
+
+.responsibility-avatar {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: #eee9ff;
+  color: #704bd0;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.responsibility-content {
+  flex: 1;
+}
+
+.responsibility-content h3 {
+  margin: 0 0 5px;
+
+  font-size: 14px;
+  font-weight: 750;
+
+  color: #24252f;
+}
+
+.responsibility-content p {
+  margin: 0 0 8px;
+
+  color: #666b78;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.responsibility-content span {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 8px;
+
+  border-radius: 6px;
+
+  background: #f1f2f5;
+
+  color: #666b76;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* ================================
+   Transcript
+================================ */
+
+.transcript-card {
+  background: #151620;
+  border-color: #151620;
+
+  color: #ffffff;
+}
+
+.transcript-card .section-label {
+  color: #b69aff;
+}
+
+.transcript-card h2 {
+  color: #ffffff;
+}
+
+.transcript-text {
+  padding: 18px;
+
+  border-radius: 12px;
+
+  background: #1d1e29;
+
+  color: #cfd1dc;
+
+  font-size: 14px;
+  line-height: 1.85;
+
+  white-space: pre-wrap;
+
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+
+/* ================================
+   Loading / Error
+================================ */
+
+.intelligence-loading {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  background: #f7f8fc;
+
+  color: #656a76;
+}
+
+.intelligence-loading h2 {
+  margin: 0;
+
+  color: #20212b;
+}
+
+.intelligence-loading button {
+  border: none;
+
+  padding: 11px 18px;
+
+  border-radius: 9px;
+
+  background: #7651d6;
+  color: #ffffff;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 950px) {
+  .intelligence-page {
+    padding: 28px 24px 50px;
+  }
+
+  .intelligence-content {
+    grid-template-columns: 1fr;
+  }
+
+  .intelligence-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .intelligence-page {
+    padding: 22px 16px 40px;
+  }
+
+  .intelligence-title h1 {
+    font-size: 30px;
+  }
+
+  .intelligence-card {
+    padding: 20px;
+  }
+
+  .action-item-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ================================
+   AI Insight
+================================ */
+
+.insight-card {
+  background: linear-gradient(
+    145deg,
+    #f4efff,
+    #ffffff
+  );
+
+  border-color: #e4dafb;
+}
+
+.insight-card h2 {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.insight-card p {
+  margin-top: 8px;
+}

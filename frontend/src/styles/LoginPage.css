@@ -1,0 +1,272 @@
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+
+/* LEFT SIDE */
+
+.login-showcase {
+  position: relative;
+
+  padding: 45px 60px;
+
+  overflow: hidden;
+
+  background: #1f2520;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.login-content {
+  margin-top: auto;
+
+  margin-bottom: 70px;
+
+  max-width: 500px;
+}
+
+
+.login-content h1 {
+  margin-top: 28px;
+
+  font-size: clamp(45px, 5vw, 72px);
+
+  line-height: 1.05;
+
+  letter-spacing: -3px;
+}
+
+
+.login-content h1 span {
+  color: #9bc57a;
+}
+
+
+.login-content p {
+  margin-top: 22px;
+
+  max-width: 420px;
+
+  color: #b7c0b8;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* Benefits */
+
+.login-benefits {
+  margin-top: 35px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+.login-benefits div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #d6ded7;
+
+  font-size: 14px;
+}
+
+
+.login-benefits svg {
+  color: #9bc57a;
+}
+
+
+/* Decorative Insight Card */
+
+.login-insight-card {
+  position: absolute;
+
+  right: 60px;
+
+  bottom: 45px;
+
+  width: 260px;
+
+  padding: 20px;
+
+  border-radius: 18px;
+
+  background: #29332b;
+
+  border: 1px solid #3d4b3f;
+
+  transform: rotate(4deg);
+
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+
+.insight-card-top {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #9bc57a;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 1px;
+}
+
+
+.login-insight-card h3 {
+  margin-top: 22px;
+
+  font-size: 18px;
+}
+
+
+.insight-progress {
+  width: 100%;
+
+  height: 7px;
+
+  margin-top: 18px;
+
+  border-radius: 10px;
+
+  background: #3b463d;
+
+  overflow: hidden;
+}
+
+
+.insight-progress div {
+  width: 70%;
+
+  height: 100%;
+
+  background: #9bc57a;
+}
+
+
+.login-insight-card p {
+  margin-top: 14px;
+
+  color: #9ca89e;
+
+  font-size: 11px;
+}
+
+
+/* RIGHT SIDE */
+
+.login-form-section {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background: #f4f6f1;
+}
+
+
+.login-form-container {
+  width: 100%;
+
+  max-width: 420px;
+}
+
+
+/* Override heading accent */
+
+.login-form-container .auth-heading span {
+  color: #71995a;
+}
+
+
+/* Submit Button */
+
+.login-form-container .auth-submit-button {
+  background: #1f2520;
+}
+
+
+.login-form-container .auth-submit-button:hover {
+  background: #303b32;
+}
+
+
+/* Switch Link */
+
+.login-form-container .auth-switch a {
+  color: #71995a;
+}
+
+
+/* Responsive */
+
+@media (max-width: 850px) {
+
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+
+  .login-showcase {
+    min-height: 450px;
+
+    padding: 40px;
+  }
+
+
+  .login-content {
+    margin-top: 80px;
+
+    margin-bottom: 20px;
+  }
+
+
+  .login-insight-card {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .login-showcase {
+    padding: 30px 22px;
+  }
+
+
+  .login-form-section {
+    padding: 60px 22px;
+  }
+
+
+  .login-content h1 {
+    font-size: 48px;
+
+    letter-spacing: -2px;
+  }
+
+}

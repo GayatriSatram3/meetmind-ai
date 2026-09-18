@@ -1,0 +1,674 @@
+.ask-ai-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.ask-ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.ask-ai-header h1 {
+  margin: 6px 0 8px;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.ask-ai-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.section-label {
+  font-size: 12px !important;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #777 !important;
+}
+
+
+.ai-assistant-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 14px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  background: #fff;
+}
+
+
+/* =========================
+   QUESTION CARD
+========================= */
+
+.ai-question-card {
+  display: flex;
+  gap: 16px;
+
+  padding: 20px;
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+
+.question-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #f3f4f6;
+}
+
+
+.question-input-area {
+  flex: 1;
+}
+
+
+.question-input-area textarea {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  resize: vertical;
+
+  font-family: inherit;
+  font-size: 16px;
+
+  line-height: 1.6;
+
+  min-height: 70px;
+
+  background: transparent;
+}
+
+
+.question-input-area textarea::placeholder {
+  color: #9ca3af;
+}
+
+
+.question-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 12px;
+}
+
+
+.question-footer span {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+
+.question-footer button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+
+  padding: 10px 17px;
+
+  border-radius: 9px;
+
+  background: #111;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.question-footer button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+
+.question-footer button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   SUGGESTIONS
+========================= */
+
+.ai-suggestions {
+  margin-top: 26px;
+}
+
+
+.ai-suggestions > p {
+  margin-bottom: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #6b7280;
+}
+
+
+.ai-suggestion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+
+.ai-suggestion-list button {
+  padding: 10px 14px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #374151;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.ai-suggestion-list button:hover {
+  border-color: #111;
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   ANSWER
+========================= */
+
+.ai-answer-card {
+  margin-top: 30px;
+
+  padding: 26px;
+
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+
+.answer-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #eee;
+}
+
+
+.answer-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #f3f4f6;
+}
+
+
+.answer-heading span {
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #888;
+}
+
+
+.answer-heading h2 {
+  margin: 2px 0 0;
+
+  font-size: 20px;
+}
+
+
+.answer-content {
+  padding: 20px 4px;
+
+  color: #374151;
+
+  line-height: 1.7;
+
+  font-size: 15px;
+}
+
+
+.answer-content p {
+  margin: 0 0 7px;
+}
+
+
+/* =========================
+   SOURCES
+========================= */
+
+.ai-sources {
+  margin-top: 10px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #eee;
+}
+
+
+.sources-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+
+.sources-header h3 {
+  margin: 0;
+
+  font-size: 15px;
+}
+
+
+.source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+.source-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #eee;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.source-card:hover {
+  transform: translateX(2px);
+
+  border-color: #ccc;
+}
+
+
+.source-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #f5f5f5;
+}
+
+
+.source-info {
+  flex: 1;
+}
+
+
+.source-info h4 {
+  margin: 0 0 3px;
+
+  font-size: 14px;
+}
+
+
+.source-info span {
+  font-size: 12px;
+
+  color: #888;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.ai-error {
+  margin-top: 24px;
+
+  padding: 16px;
+
+  border: 1px solid #f0d0d0;
+
+  border-radius: 12px;
+
+  background: #fff7f7;
+}
+
+
+.ai-error strong {
+  font-size: 14px;
+}
+
+
+.ai-error p {
+  margin: 5px 0 0;
+
+  font-size: 13px;
+
+  color: #777;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading-card {
+  min-height: 100px;
+}
+
+
+.loading-dots {
+  display: flex;
+  gap: 5px;
+
+  margin-top: 20px;
+}
+
+
+.loading-dots span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #999;
+
+  animation: bounce 1.2s infinite;
+}
+
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+
+@keyframes bounce {
+
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-5px);
+  }
+
+}
+
+
+/* =========================
+   SPINNER
+========================= */
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================
+   MARKDOWN ANSWER
+========================= */
+
+.answer-content {
+  padding: 22px 4px;
+
+  color: #374151;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+.answer-content p {
+  margin: 0 0 12px;
+}
+
+.answer-content ul {
+  margin: 10px 0 16px;
+
+  padding-left: 24px;
+}
+
+.answer-content ol {
+  margin: 10px 0 16px;
+
+  padding-left: 24px;
+}
+
+.answer-content li {
+  margin-bottom: 8px;
+}
+
+.answer-content strong {
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.answer-content h1,
+.answer-content h2,
+.answer-content h3 {
+  margin-top: 20px;
+
+  margin-bottom: 10px;
+
+  color: #111827;
+}
+
+.answer-content code {
+  padding: 2px 6px;
+
+  border-radius: 5px;
+
+  background: #f3f4f6;
+
+  font-size: 13px;
+}
+
+/* =========================
+   CONVERSATION
+========================= */
+
+.conversation {
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.user-message {
+  align-items: flex-end;
+}
+
+
+.ai-message {
+  align-items: flex-start;
+}
+
+
+.message-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color: #777;
+}
+
+
+.ai-label {
+  color: #111;
+}
+
+
+.user-bubble {
+  max-width: 70%;
+
+  padding: 12px 16px;
+
+  border-radius: 14px 14px 4px 14px;
+
+  background: #111;
+
+  color: white;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+.ai-bubble {
+  width: 100%;
+
+  max-width: 850px;
+
+  padding: 20px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px 14px 14px 4px;
+
+  background: white;
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.03);
+}
+
+
+.ai-bubble p {
+  margin: 0 0 10px;
+
+  color: #374151;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+
+.ai-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+
+.ai-bubble ul,
+.ai-bubble ol {
+  margin: 10px 0 14px;
+
+  padding-left: 22px;
+}
+
+
+.ai-bubble li {
+  margin-bottom: 7px;
+
+  line-height: 1.6;
+}
+
+
+.ai-bubble strong {
+  color: #111827;
+}
