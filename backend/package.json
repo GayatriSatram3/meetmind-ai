@@ -1,13 +1,18 @@
 {
   "name": "backend",
+{
+  "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-  "start": "node src/server.js",
-  "dev": "nodemon src/server.js",
-  "prisma:generate": "prisma generate",
-  "prisma:migrate:deploy": "prisma migrate deploy"
-},
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:deploy": "prisma migrate deploy"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
