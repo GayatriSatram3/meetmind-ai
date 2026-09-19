@@ -37,46 +37,8 @@ function AnalyticsPage() {
   const [error, setError] = useState("");
 
   const [aiSummary, setAiSummary] = useState("");
-  const [aiSummaryLoading, setAiSummaryLoading] =
-    useState(true);
-
-  useEffect(() => {
-  const fetchAnalytics = async () => {
-    try {
-      setLoading(true);
-
-      const workspaceId =
-        localStorage.getItem("workspaceId");
-
-      if (!workspaceId) {
-        setError(
-          "Workspace not found. Please log in again."
-        );
-        return;
-      }
-
-      const response = await api.get(
-        `/analytics/${workspaceId}`
-      );
-
-      setAnalytics(response.data);
-    } catch (error) {
-      console.error(
-        "Analytics error:",
-        error.response?.data || error
-      );
-
-      setError(
-        error.response?.data?.message ||
-        "Failed to load analytics."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchAnalytics();
-}, []);
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(true);
+  const [aiSummaryError, setAiSummaryError] = useState("");
 
 
 // AI SUMMARY
@@ -130,8 +92,17 @@ if (loading) {
 if (error) {
   return (
     <div className="analytics-error">
-      <h2>Something went wrong</h2>
+      <BarChart3 size={32} />
+
+      <h2>Couldn't load analytics</h2>
+
       <p>{error}</p>
+
+      <button
+        onClick={() => window.location.reload()}
+      >
+        Try Again
+      </button>
     </div>
   );
 }
@@ -182,10 +153,12 @@ analytics.meetings.forEach((meeting) => {
 
 const meetingActivityData = Object.entries(
   meetingActivity
-).map(([date, count]) => ({
-  date,
-  meetings: count,
-}));
+)
+  .map(([date, count]) => ({
+    date,
+    meetings: count,
+  }))
+  .slice(-14);
 
 const workspaceInsights = [
   {
@@ -317,10 +290,9 @@ const workspaceInsights = [
     </div>
 
     <button
-      onClick={() =>
-        navigate("/action-items")
-      }
-    >
+  type="button"
+  onClick={() => navigate("/action-items")}
+>
       View action items
       <ArrowRight size={16} />
     </button>
@@ -695,59 +667,109 @@ const workspaceInsights = [
           </div>
 
           <button
-            onClick={() =>
-              navigate("/meetings")
-            }
-          >
+  type="button"
+  onClick={() => navigate("/meetings")}
+>
             View all meetings
             <ArrowRight size={16} />
           </button>
         </div>
 
 
-        <div className="recent-meetings">
+      <div className="recent-meetings">
 
-          {analytics.meetings
-            .slice(0, 6)
-            .map((meeting) => (
+  {analytics.meetings.length === 0 ? (
 
-              <div
-                className="analytics-meeting"
-                key={meeting.id}
-                onClick={() =>
-                  navigate(
-                    `/meetings/${meeting.id}`
-                  )
-                }
-              >
+    <div className="analytics-empty">
 
-                <div className="meeting-icon">
-                  <CalendarDays size={18} />
-                </div>
+      <CalendarDays size={28} />
 
-                <div className="meeting-info">
-                  <h3>{meeting.title}</h3>
+      <h3>No meetings yet</h3>
 
+      <p>
+        Create your first meeting to start
+        seeing workspace analytics.
+      </p>
+
+      <button
+        type="button"
+        onClick={() => navigate("/new-meeting")}
+      >
+        Create meeting
+        <ArrowRight size={15} />
+      </button>
+
+    </div>
+
+  ) : (
+
+    analytics.meetings
+      .slice(0, 6)
+      .map((meeting) => (
+
+        <div
+          key={meeting.id}
+          className="analytics-meeting"
+          role="button"
+          tabIndex={0}
+          onClick={() =>
+            navigate(`/meetings/${meeting.id}`)
+          }
+          onKeyDown={(e) => {
+            if (
+              e.key === "Enter" ||
+              e.key === " "
+            ) {
+              e.preventDefault();
+
+              navigate(
+                `/meetings/${meeting.id}`
+              );
+            }
+          }}
+        >
+
+          <div className="analytics-meeting-icon">
+            <CalendarDays size={18} />
+          </div>
+
+          <div className="analytics-meeting-content">
+
+            <h3>
+              {meeting.title}
+            </h3>
+
+            <div className="analytics-meeting-meta">
+
+              <span>
+                {new Date(
+                  meeting.createdAt
+                ).toLocaleDateString()}
+              </span>
+
+              {meeting.duration !== null &&
+                meeting.duration !== undefined && (
                   <span>
-                    {new Date(
-                      meeting.createdAt
-                    ).toLocaleDateString()}
+                    {meeting.duration} min
                   </span>
-                </div>
+                )}
 
-                <div className="meeting-duration">
-                  {meeting.duration
-                    ? `${meeting.duration} min`
-                    : "—"}
-                </div>
+            </div>
 
-                <ArrowRight size={17} />
+          </div>
 
-              </div>
-
-            ))}
+          <ArrowRight
+            size={17}
+            className="analytics-meeting-arrow"
+          />
 
         </div>
+
+      ))
+
+  )}
+
+</div>
 
       </div>
 

@@ -17,8 +17,11 @@ import {
 } from "lucide-react";
 
 import "../styles/LandingPage.css";
+import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="landing-page">
 
@@ -40,12 +43,13 @@ function LandingPage() {
         </div>
 
         <div className="nav-actions">
-          <button className="login-btn">Log in</button>
-
-          <button className="nav-cta">
-            Get started
-            <ArrowRight size={17} />
+          <button onClick={() => navigate("/login")}>
+              Log in
           </button>
+
+          <button onClick={() => navigate("/register")}>
+    Get started
+</button>
         </div>
       </nav>
 
@@ -70,14 +74,13 @@ function LandingPage() {
         </p>
 
         <div className="hero-buttons">
-          <button className="primary-btn">
-            Start for free
-            <ArrowRight size={19} />
-          </button>
+          <button onClick={() => navigate("/register")}>
+    Start for free
+</button>
 
-          <button className="secondary-btn">
-            Explore MeetMind
-          </button>
+          <button onClick={() => navigate("/login")}>
+    Explore MeetMind
+</button>
         </div>
 
 
@@ -452,7 +455,10 @@ function LandingPage() {
 
 {/* Dashboard Preview Section */}
 
-<section className="dashboard-showcase">
+<section
+  className="dashboard-showcase"
+  id="about"
+>
 
   <div className="dashboard-showcase-header">
 
@@ -682,10 +688,10 @@ function LandingPage() {
             and frontend implementation.
           </p>
 
-          <button>
-            View insights
-            <ArrowRight size={16} />
-          </button>
+          <button onClick={() => navigate("/analytics")}>
+  View insights
+  <ArrowRight size={16} />
+</button>
 
         </div>
 
@@ -724,16 +730,22 @@ function LandingPage() {
 
     <div className="cta-buttons">
 
-      <button className="cta-primary">
-        Start for free
-        <ArrowRight size={18} />
-      </button>
+  <button
+    className="cta-primary"
+    onClick={() => navigate("/register")}
+  >
+    Start for free
+    <ArrowRight size={18} />
+  </button>
 
-      <button className="cta-secondary">
-        Explore MeetMind
-      </button>
+  <button
+    className="cta-secondary"
+    onClick={() => navigate("/login")}
+  >
+    Explore MeetMind
+  </button>
 
-    </div>
+</div>
 
   </div>
 
@@ -803,11 +815,10 @@ function LandingPage() {
         more valuable.
       </h4>
 
-      <button>
-        Get started
-        <ArrowRight size={16} />
-      </button>
-
+      <button onClick={() => navigate("/register")}>
+  Get started
+  <ArrowRight size={16} />
+</button>
     </div>
 
   </div>

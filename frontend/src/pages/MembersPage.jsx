@@ -167,13 +167,14 @@ const handleAddMember = async (e) => {
 
     setEmail("");
 
-    setAddMemberSuccess(
+  setAddMemberSuccess(
   "Member added successfully."
 );
 
 setTimeout(() => {
   setShowAddMember(false);
-}, 700);
+  setAddMemberSuccess("");
+}, 1200);
 
   } catch (error) {
 
@@ -324,21 +325,29 @@ const handleRemoveMember = async (memberId) => {
 
   if (error) {
 
-    return (
-      <div className="members-error">
+  return (
+    <div className="members-error">
 
-        <h2>
-          Something went wrong
-        </h2>
+      <Users size={32} />
 
-        <p>
-          {error}
-        </p>
+      <h2>
+        Couldn't load workspace members
+      </h2>
 
-      </div>
-    );
+      <p>
+        {error}
+      </p>
 
-  }
+      <button
+        onClick={() => window.location.reload()}
+      >
+        Try Again
+      </button>
+
+    </div>
+  );
+
+}
 
 
   return (
@@ -425,18 +434,29 @@ const handleRemoveMember = async (memberId) => {
 
           <div className="empty-members">
 
-            <Users size={32} />
+  <Users size={32} />
 
-            <h3>
-              No members yet
-            </h3>
+  <h3>
+    No members yet
+  </h3>
 
-            <p>
-              There are no members in this
-              workspace.
-            </p>
+  <p>
+    Add a teammate to start collaborating
+    in this workspace.
+  </p>
 
-          </div>
+  <button
+    className="empty-add-member"
+    onClick={() => {
+      setShowAddMember(true);
+      setAddMemberError("");
+      setAddMemberSuccess("");
+    }}
+  >
+    + Add Member
+  </button>
+
+</div>
 
         ) : (
 
@@ -575,18 +595,21 @@ const handleRemoveMember = async (memberId) => {
   >
 
     <div
-      className="add-member-modal"
-      onClick={(e) =>
-        e.stopPropagation()
-      }
-    >
+  className="add-member-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="add-member-title"
+  onClick={(e) =>
+    e.stopPropagation()
+  }
+>
 
       <div className="modal-header">
 
         <div>
-          <h2>
-            Add workspace member
-          </h2>
+          <h2 id="add-member-title">
+  Add workspace member
+</h2>
 
           <p>
             Add an existing MeetMind AI user
@@ -595,13 +618,15 @@ const handleRemoveMember = async (memberId) => {
         </div>
 
         <button
-          className="modal-close"
-          onClick={() =>
-            setShowAddMember(false)
-          }
-        >
-          ×
-        </button>
+  className="modal-close"
+  type="button"
+  aria-label="Close add member dialog"
+  onClick={() =>
+    setShowAddMember(false)
+  }
+>
+  ×
+</button>
 
       </div>
 

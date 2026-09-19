@@ -731,12 +731,21 @@
   }
 
   .main-content {
-    padding: 25px;
+    width: 100%;
+    padding: 25px 20px;
   }
 
   .dashboard-header {
     flex-direction: column;
     gap: 20px;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .new-meeting-button {
+    flex: 1;
   }
 
 }
@@ -768,3 +777,126 @@
 .stat-card {
   cursor: pointer;
 }
+
+
+.user-menu-button {
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px 8px;
+}
+
+.user-menu-button:hover {
+  color: #222;
+}
+
+.user-menu {
+  position: absolute;
+  right: 20px;
+  bottom: 72px;
+  width: 150px;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 100;
+}
+
+.user-menu button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.user-menu button:hover {
+  background: #f5f5f5;
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.settings-panel {
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.settings-header h2 {
+  margin: 0;
+}
+
+.settings-header p {
+  margin: 6px 0 0;
+  color: #777;
+}
+
+.settings-header button {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.settings-section {
+  border-top: 1px solid #eee;
+  padding: 20px 0;
+}
+
+.settings-section h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.settings-status {
+  color: #5f8f4d;
+  font-weight: 600;
+}
+
+.settings-close-button {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 11px;
+  cursor: pointer;
+  background: #111;
+  color: white;
+}
+
+.sidebar-bottom {
+  position: relative;
+}
+

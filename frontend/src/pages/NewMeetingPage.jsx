@@ -56,12 +56,12 @@ function NewMeetingPage() {
       icon: PenLine,
       title: "Quick notes",
       description:
-        "Create a meeting manually and organize notes for your team.",
+        "Capture the important points, decisions and follow-ups without writing a full transcript.",
       label: "SIMPLE",
       features: [
-        "Manual notes",
-        "Team collaboration",
-        "Add AI analysis later",
+        "Structured meeting notes",
+        "Capture key decisions",
+        "AI-powered organization",
       ],
     },
 
@@ -146,16 +146,23 @@ function NewMeetingPage() {
             return (
 
               <div
-                key={method.id}
-                className={`method-card ${
-                  selectedMethod === method.id
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  setSelectedMethod(method.id)
-                }
-              >
+  key={method.id}
+  className={`method-card ${
+    selectedMethod === method.id
+      ? "selected"
+      : ""
+  }`}
+  role="button"
+  tabIndex={0}
+  aria-pressed={selectedMethod === method.id}
+  onClick={() => setSelectedMethod(method.id)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setSelectedMethod(method.id);
+    }
+  }}
+>
 
                 <div className="method-top">
 

@@ -67,7 +67,10 @@ function LoginPage() {
       "user",
       JSON.stringify(response.data.user)
     );
-
+localStorage.setItem(
+  "userName",
+  response.data.user.name
+);
     // Get user's workspaces
     const workspaceResponse = await api.get(
       "/workspaces"
@@ -77,19 +80,22 @@ function LoginPage() {
       workspaceResponse.data.workspaces;
 
     // Select first workspace
-    if (workspaces.length > 0) {
-      localStorage.setItem(
-        "workspaceId",
-        workspaces[0].id
-      );
+    if (workspaces.length === 0) {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("userName");
 
-      console.log(
-        "Workspace selected:",
-        workspaces[0].id
-      );
-    } else {
-      console.log("No workspaces found");
-    }
+  setError(
+    "No workspace is available for this account."
+  );
+
+  return;
+}
+
+localStorage.setItem(
+  "workspaceId",
+  workspaces[0].id
+);
 
     // Redirect to dashboard
     navigate("/dashboard");
@@ -262,11 +268,12 @@ function LoginPage() {
 
           {error && (
 
-            <div className="auth-error">
-
-              {error}
-
-            </div>
+            <div
+  className="auth-error"
+  role="alert"
+>
+  {error}
+</div>
 
           )}
 
@@ -278,18 +285,20 @@ function LoginPage() {
 
             <div className="auth-input-group">
 
-              <label>
-                Email address
-              </label>
+              <label htmlFor="login-email">
+  Email address
+</label>
 
-              <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+<input
+  id="login-email"
+  type="email"
+  name="email"
+  placeholder="you@example.com"
+  value={formData.email}
+  onChange={handleChange}
+  autoComplete="email"
+  required
+/>
 
             </div>
 
@@ -297,48 +306,49 @@ function LoginPage() {
 
             {/* Password */}
 
-            <div className="auth-input-group">
+           {/* Password */}
 
-              <label>
-                Password
-              </label>
+<div className="auth-input-group">
 
+  <label htmlFor="login-password">
+    Password
+  </label>
 
-              <div className="password-input">
+  <div className="password-input-wrapper">
 
-                <input
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
+    <input
+      id="login-password"
+      type={showPassword ? "text" : "password"}
+      name="password"
+      placeholder="Enter your password"
+      value={formData.password}
+      onChange={handleChange}
+      autoComplete="current-password"
+      required
+    />
 
+    <button
+      type="button"
+      className="password-toggle"
+      aria-label={
+        showPassword
+          ? "Hide password"
+          : "Show password"
+      }
+      onClick={() =>
+        setShowPassword(!showPassword)
+      }
+    >
+      {showPassword ? (
+        <EyeOff size={18} />
+      ) : (
+        <Eye size={18} />
+      )}
+    </button>
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                >
+  </div>
 
-                  {
-                    showPassword
-                      ? <EyeOff size={18} />
-                      : <Eye size={18} />
-                  }
-
-                </button>
-
-              </div>
-
-            </div>
-
+</div>
 
 
             {/* Submit */}

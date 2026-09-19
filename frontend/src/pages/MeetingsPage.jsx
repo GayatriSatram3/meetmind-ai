@@ -20,7 +20,7 @@ function MeetingsPage() {
   const [meetings, setMeetings] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchMeetings();
@@ -28,38 +28,39 @@ function MeetingsPage() {
 
 
   const fetchMeetings = async () => {
+  try {
+    const workspaceId =
+      localStorage.getItem("workspaceId");
 
-    try {
-
-      const workspaceId =
-        localStorage.getItem("workspaceId");
-
-      if (!workspaceId) {
-        return;
-      }
-
-      const response = await api.get(
-        `/meetings/workspace/${workspaceId}`
-      );
-
-      setMeetings(
-        response.data.meetings || []
-      );
-
-    } catch (error) {
-
-      console.error(
-        "Failed to fetch meetings:",
-        error.response?.data || error
-      );
-
-    } finally {
-
-      setLoading(false);
-
+    if (!workspaceId) {
+      setError("No workspace selected.");
+      return;
     }
 
-  };
+    const response = await api.get(
+      `/meetings/workspace/${workspaceId}`
+    );
+
+    setMeetings(
+      response.data.meetings || []
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Failed to fetch meetings:",
+      error.response?.data || error
+    );
+
+    setError(
+      error.response?.data?.message ||
+      "Unable to load meetings. Please try again."
+    );
+
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   const filteredMeetings = meetings.filter(
@@ -156,10 +157,18 @@ function MeetingsPage() {
 
 
         <div className="meeting-count">
-
-          {filteredMeetings.length} meetings
-
-        </div>
+  {search
+    ? `${filteredMeetings.length} result${
+        filteredMeetings.length === 1
+          ? ""
+          : "s"
+      }`
+    : `${meetings.length} meeting${
+        meetings.length === 1
+          ? ""
+          : "s"
+      }`}
+</div>
 
       </div>
 
@@ -169,17 +178,43 @@ function MeetingsPage() {
 
       <main className="meetings-content">
 
-        {loading ? (
+  {loading ? (
 
-          <div className="meetings-empty">
+    <div className="meetings-empty">
 
-            <Sparkles size={30} />
+      <Sparkles size={30} />
 
-            <h3>
-              Loading meetings...
-            </h3>
+      <h3>
+        Loading meetings...
+      </h3>
 
-          </div>
+      <p>
+        Fetching your meeting library.
+      </p>
+
+    </div>
+
+  ) : error ? (
+
+    <div className="meetings-empty">
+
+      <FileText size={32} />
+
+      <h3>
+        Unable to load meetings
+      </h3>
+
+      <p>
+        {error}
+      </p>
+
+      <button
+        onClick={fetchMeetings}
+      >
+        Try again
+      </button>
+
+    </div>
 
         ) : filteredMeetings.length === 0 ? (
 
@@ -238,14 +273,21 @@ function MeetingsPage() {
                 return (
 
                   <div
-                    className="meeting-card"
-                    key={meeting.id}
-                    onClick={() =>
-                      navigate(
-                        `/meetings/${meeting.id}`
-                      )
-                    }
-                  >
+  className="meeting-card"
+  role="button"
+  tabIndex={0}
+  onClick={() =>
+    navigate(`/meetings/${meeting.id}`)
+  }
+  onKeyDown={(event) => {
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+      navigate(`/meetings/${meeting.id}`);
+    }
+  }}
+>
 
                     <div className="meeting-card-top">
 

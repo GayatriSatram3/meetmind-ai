@@ -160,6 +160,10 @@
   cursor: pointer;
 
   transition: 0.25s;
+  transform: 0.25s ease,
+  border-color 0.25s ease,
+  box-shadow 0.25s ease,
+  background 0.25s ease;
 }
 
 
@@ -385,4 +389,63 @@
     font-size: 40px;
   }
 
+}
+
+.back-button:focus-visible,
+.method-card:focus-visible,
+.continue-button:focus-visible {
+  outline: 3px solid rgba(115, 156, 92, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 500px) {
+
+  .new-meeting-content {
+    padding: 45px 18px;
+  }
+
+  .new-meeting-heading h1 {
+    font-size: 40px;
+    letter-spacing: -1.8px;
+  }
+
+  .new-meeting-heading > p {
+    font-size: 14px;
+  }
+
+  .meeting-methods {
+    margin-top: 45px;
+    gap: 15px;
+  }
+
+  .method-card {
+    padding: 22px;
+  }
+
+  .method-card:hover {
+    transform: none;
+  }
+
+  .continue-button {
+    width: 100%;
+    margin-top: 35px;
+  }
+}
+
+.method-card.selected .method-icon {
+  background: #dcebd2;
+  color: #557c40;
+}
+
+.method-card.selected .method-select {
+  color: #557c40;
+}
+
+.method-select svg {
+  transition: transform 0.2s ease;
+}
+
+.method-card:hover .method-select svg,
+.method-card.selected .method-select svg {
+  transform: translateX(4px);
 }

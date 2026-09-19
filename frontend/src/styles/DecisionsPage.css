@@ -221,3 +221,80 @@
   }
 
 }
+
+.retry-btn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #18151f;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.retry-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.new-meeting-btn {
+  transition: 0.2s ease;
+}
+
+.new-meeting-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.source-meeting {
+  transition: 0.2s ease;
+}
+
+.source-meeting:hover {
+  opacity: 0.75;
+}
+
+@media (max-width: 700px) {
+
+  .decisions-page {
+    padding: 28px 20px;
+  }
+
+  .decisions-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .decisions-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .decisions-search {
+    width: auto;
+  }
+
+  .decision-card {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .decision-number {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .decision-main h2 {
+    font-size: 16px;
+  }
+
+  .decision-meta {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

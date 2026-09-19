@@ -19,29 +19,40 @@ function MeetingIntelligencePage() {
 
   const [meeting, setMeeting] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchMeeting = async () => {
-      try {
-        const response = await api.get(
-          `/meetings/${meetingId}`
-        );
+  const fetchMeeting = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-        console.log("Meeting:", response.data);
+      const response = await api.get(
+        `/meetings/${meetingId}`
+      );
 
-        setMeeting(response.data.meeting);
-      } catch (error) {
-        console.error(
-          "Failed to fetch meeting:",
-          error.response?.data || error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+      console.log("Meeting:", response.data);
 
-    fetchMeeting();
-  }, [meetingId]);
+      setMeeting(response.data.meeting);
+    } catch (error) {
+      console.error(
+        "Failed to fetch meeting:",
+        error.response?.data || error
+      );
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load meeting intelligence."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchMeeting();
+}, [meetingId]);
+
+
 
   if (loading) {
     return (
@@ -52,19 +63,55 @@ function MeetingIntelligencePage() {
     );
   }
 
-  if (!meeting) {
-    return (
-      <div className="intelligence-loading">
-        <h2>Meeting not found</h2>
+  if (error) {
+  return (
+    <div className="intelligence-loading intelligence-error">
+      <Sparkles size={30} />
+
+      <h2>Unable to load meeting</h2>
+
+      <p>{error}</p>
+
+      <div className="intelligence-error-actions">
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
 
         <button
+          type="button"
+          className="secondary-button"
           onClick={() => navigate("/dashboard")}
         >
           Back to Dashboard
         </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+if (!meeting) {
+  return (
+    <div className="intelligence-loading intelligence-error">
+      <FileText size={30} />
+
+      <h2>Meeting not found</h2>
+
+      <p>
+        The meeting you're looking for could not be found.
+      </p>
+
+      <button
+        type="button"
+        onClick={() => navigate("/dashboard")}
+      >
+        Back to Dashboard
+      </button>
+    </div>
+  );
+}
 
   return (
     <div className="intelligence-page">

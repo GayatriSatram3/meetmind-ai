@@ -10,6 +10,7 @@ const taskRoutes = require("./routes/task.routes");
 const searchRoutes = require("./routes/search.routes");
 const ragRoutes = require("./routes/rag.routes");
 const memberRoutes = require("./routes/member.routes");
+const audioRoutes = require("./routes/audio.routes");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/search", searchRoutes);
 app.use("/api/rag", ragRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/members", memberRoutes);
+app.use("/api/audio", audioRoutes);
 
 const PORT = process.env.PORT || 5000;
 

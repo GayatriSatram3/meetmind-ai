@@ -224,11 +224,12 @@ function RegisterPage() {
 
           {error && (
 
-            <div className="auth-error">
-
-              {error}
-
-            </div>
+            <div
+  className="auth-error"
+  role="alert"
+>
+  {error}
+</div>
 
           )}
 
@@ -240,19 +241,20 @@ function RegisterPage() {
 
             <div className="auth-input-group">
 
-              <label>
-                Full name
-              </label>
+              <label htmlFor="register-name">
+  Full name
+</label>
 
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-
+<input
+  id="register-name"
+  type="text"
+  name="name"
+  placeholder="Enter your name"
+  value={formData.name}
+  onChange={handleChange}
+  autoComplete="name"
+  required
+/>
             </div>
 
 
@@ -260,63 +262,71 @@ function RegisterPage() {
 
             <div className="auth-input-group">
 
-              <label>
-                Email address
-              </label>
+              <label htmlFor="register-email">
+  Email address
+</label>
 
-              <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-
+<input
+  id="register-email"
+  type="email"
+  name="email"
+  placeholder="you@example.com"
+  value={formData.email}
+  onChange={handleChange}
+  autoComplete="email"
+  required
+/>
             </div>
 
 
             {/* Password */}
 
-            <div className="auth-input-group">
+            
+{/* Password */}
 
-              <label>
-                Password
-              </label>
+<div className="auth-input-group">
 
-              <div className="password-input">
+  <label htmlFor="register-password">
+    Password
+  </label>
 
-                <input
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  name="password"
-                  placeholder="Create a password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
+  <div className="password-input-wrapper">
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
-                >
+    <input
+      id="register-password"
+      type={showPassword ? "text" : "password"}
+      name="password"
+      placeholder="Create a password"
+      value={formData.password}
+      onChange={handleChange}
+      autoComplete="new-password"
+      minLength={8}
+      required
+    />
 
-                  {
-                    showPassword
-                      ? <EyeOff size={18} />
-                      : <Eye size={18} />
-                  }
+    <button
+      type="button"
+      className="password-toggle"
+      aria-label={
+        showPassword
+          ? "Hide password"
+          : "Show password"
+      }
+      onClick={() =>
+        setShowPassword(!showPassword)
+      }
+    >
+      {showPassword ? (
+        <EyeOff size={18} />
+      ) : (
+        <Eye size={18} />
+      )}
+    </button>
 
-                </button>
+  </div>
 
-              </div>
-
-            </div>
+</div>
+        
 
 
             {/* Submit */}

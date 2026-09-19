@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .landing-page {
   min-height: 100vh;
   background: #f7f5f0;
@@ -1760,6 +1764,61 @@
     flex-direction: column;
 
     gap: 10px;
+  }
+
+}
+
+.nav-links a:focus-visible,
+.nav-actions button:focus-visible,
+.hero-buttons button:focus-visible,
+.cta-buttons button:focus-visible,
+.footer-join button:focus-visible,
+.mock-ai-insight button:focus-visible {
+  outline: 3px solid rgba(216, 102, 59, 0.3);
+  outline-offset: 3px;
+}
+
+@media (max-width: 500px) {
+
+  .navbar {
+    padding: 18px 16px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav-cta {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-buttons button {
+    width: 100%;
+    justify-content: center;
   }
 
 }

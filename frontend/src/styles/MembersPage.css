@@ -394,9 +394,15 @@
     flex-wrap: wrap;
   }
 
-
-  .member-role {
+  .member-actions {
+    width: 100%;
     margin-left: 61px;
+
+    justify-content: space-between;
+  }
+
+  .member-role-section {
+    justify-content: flex-start;
   }
 
 }
@@ -684,6 +690,12 @@
     width: 100%;
 
     justify-content: space-between;
+
+    gap: 10px;
+  }
+
+  .member-count {
+    flex-shrink: 0;
   }
 
 }
@@ -732,8 +744,22 @@
   letter-spacing: 0.05em;
 
   cursor: pointer;
-
   outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.role-select:hover {
+  border-color: #bbb;
+}
+
+.role-select:focus {
+  border-color: #111;
+
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 
@@ -820,4 +846,52 @@
     background: #fff1f0;
     color: #c0392b;
     font-size: 12px;
+}
+
+.members-error button {
+  margin-top: 16px;
+
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #111;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.members-error button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.empty-add-member {
+  margin-top: 16px;
+
+  padding: 9px 14px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #111;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.empty-add-member:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
 }

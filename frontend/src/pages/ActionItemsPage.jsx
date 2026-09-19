@@ -19,43 +19,57 @@ function ActionItemsPage() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
   const fetchTasks = async () => {
-    try {
-      const workspaceId =
-        localStorage.getItem("workspaceId");
+  try {
+    setError("");
 
-      if (!workspaceId) {
-        console.error("No workspace selected");
-        return;
-      }
+    const workspaceId =
+      localStorage.getItem("workspaceId");
 
-      const response = await api.get(
-        `/tasks/${workspaceId}`
-      );
-
-      console.log("Tasks:", response.data);
-
-      setTasks(response.data.tasks);
-
-    } catch (error) {
-      console.error(
-        "Failed to fetch tasks:",
-        error.response?.data || error
-      );
-    } finally {
-      setLoading(false);
+    if (!workspaceId) {
+      setError("No workspace selected.");
+      return;
     }
-  };
+
+    const response = await api.get(
+      `/tasks/${workspaceId}`
+    );
+
+    setTasks(response.data.tasks || []);
+
+  } catch (error) {
+    console.error(
+      "Failed to fetch tasks:",
+      error.response?.data || error
+    );
+
+    setError(
+      error.response?.data?.message ||
+      "Unable to load action items. Please try again."
+    );
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   const updateTaskStatus = async (
   taskId,
   status
 ) => {
+  const previousTask =
+    tasks.find((task) => task.id === taskId);
+
+  if (!previousTask) {
+    return;
+  }
+
   try {
     const workspaceId =
       localStorage.getItem("workspaceId");
@@ -64,19 +78,6 @@ function ActionItemsPage() {
       return;
     }
 
-    const response = await api.patch(
-      `/tasks/${workspaceId}/status/${taskId}`,
-      {
-        status,
-      }
-    );
-
-    console.log(
-      "Task updated:",
-      response.data
-    );
-
-    // Update UI immediately
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
         task.id === taskId
@@ -88,10 +89,34 @@ function ActionItemsPage() {
       )
     );
 
+    await api.patch(
+      `/tasks/${workspaceId}/status/${taskId}`,
+      {
+        status,
+      }
+    );
+
   } catch (error) {
+
     console.error(
       "Failed to update task:",
       error.response?.data || error
+    );
+
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              status: previousTask.status,
+            }
+          : task
+      )
+    );
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to update task status."
     );
   }
 };
@@ -123,6 +148,33 @@ function ActionItemsPage() {
       </div>
     );
   }
+
+  if (error) {
+  return (
+    <div className="tasks-loading">
+
+      <ListTodo size={32} />
+
+      <h3>
+        Unable to load action items
+      </h3>
+
+      <p>
+        {error}
+      </p>
+
+      <button
+        onClick={() => {
+          setLoading(true);
+          fetchTasks();
+        }}
+      >
+        Try again
+      </button>
+
+    </div>
+  );
+}
 
   return (
     <div className="tasks-page">
@@ -263,13 +315,20 @@ function ActionItemsPage() {
             <CheckCircle2 size={36} />
 
             <h2>
-              No tasks here
-            </h2>
+  {filter === "ALL"
+    ? "No action items yet"
+    : `No ${
+        filter === "IN_PROGRESS"
+          ? "in-progress"
+          : filter.toLowerCase()
+      } tasks`}
+</h2>
 
-            <p>
-              Action items from your meetings
-              will appear here.
-            </p>
+<p>
+  {filter === "ALL"
+    ? "Action items extracted from your meetings will appear here."
+    : "Try another status filter to see more tasks."}
+</p>
           </div>
 
         ) : (

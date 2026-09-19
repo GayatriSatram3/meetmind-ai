@@ -385,9 +385,11 @@ function AskAIPage() {
 
                   <div className="ai-bubble">
 
-                    <ReactMarkdown>
-                      {message.content}
-                    </ReactMarkdown>
+  <div className="answer-content">
+    <ReactMarkdown>
+      {message.content}
+    </ReactMarkdown>
+  </div>
 
                     {message.sources &&
                       message.sources.length > 0 && (
@@ -410,14 +412,19 @@ function AskAIPage() {
                             (source) => (
 
                             <div
-                              className="source-card"
-                              key={source.id}
-                              onClick={() =>
-                                navigate(
-                                  `/meetings/${source.id}`
-                                )
-                              }
-                            >
+  className="source-card"
+  key={source.id}
+  role="button"
+  tabIndex={0}
+  onClick={() =>
+    navigate(`/meetings/${source.id}`)
+  }
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      navigate(`/meetings/${source.id}`);
+    }
+  }}
+>
 
                               <div className="source-icon">
                                 <FileText size={17} />

@@ -21,10 +21,24 @@ const userName =
 function DashboardPage() {
     const [tasks, setTasks] = useState([]);
     const [meetings, setMeetings] = useState([]);
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-      fetchDashboardTasks();
-      fetchDashboardMeetings();
-    }, []);
+  const loadDashboard = async () => {
+    setLoading(true);
+
+    await Promise.all([
+      fetchDashboardTasks(),
+      fetchDashboardMeetings(),
+    ]);
+
+    setLoading(false);
+  };
+
+  loadDashboard();
+}, []);
     
 const fetchDashboardTasks = async () => {
   try {
@@ -147,7 +161,14 @@ const insightDescription =
     ? "Most action items currently have an assigned owner."
     : "Some action items do not have an assigned owner yet.";
 
-    
+    const currentHour = new Date().getHours();
+
+const greeting =
+  currentHour < 12
+    ? "Good morning"
+    : currentHour < 18
+    ? "Good afternoon"
+    : "Good evening";
 
     const navigate = useNavigate();
     return (
@@ -243,7 +264,10 @@ const insightDescription =
             Members
           </div>
 
-          <div className="menu-item">
+          <div
+            className="menu-item"
+            onClick={() => setShowSettings(true)}
+          >
             <span>⚙</span>
             Settings
           </div>
@@ -272,9 +296,41 @@ const insightDescription =
               <p>Workspace member</p>
             </div>
 
-            <span>•••</span>
+            <button
+              className="user-menu-button"
+              onClick={() => setShowUserMenu((prev) => !prev)}
+            >
+              •••
+            </button>
 
           </div>
+
+          {showUserMenu && (
+  <div className="user-menu">
+
+    <button
+      onClick={() => {
+        setShowSettings(true);
+        setShowUserMenu(false);
+      }}
+    >
+      Settings
+    </button>
+
+    <button
+      onClick={() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("workspaceId");
+
+        navigate("/login");
+      }}
+    >
+      Log out
+    </button>
+
+  </div>
+)}
 
         </div>
 
@@ -297,8 +353,8 @@ const insightDescription =
 </p>
 
             <h1>
-              Good morning, {userName} 👋
-            </h1>
+  {greeting}, {userName} 👋
+</h1>
 
             <p className="header-description">
               Here's what's happening across your meetings.
@@ -307,28 +363,23 @@ const insightDescription =
 
           <div className="header-actions">
 
-            <button
-              className="search-button"
-              onClick={() => navigate("/smart-search")}
-            >
-              ⌕
-              <span>Search anything...</span>
-              <kbd>⌘ K</kbd>
-            </button>
+  <button
+    className="search-button"
+    onClick={() => navigate("/smart-search")}
+  >
+    ⌕
+    <span>Search anything...</span>
+    <kbd>⌘ K</kbd>
+  </button>
 
-            <button className="notification-button">
-              ♧
-              <span className="notification-dot"></span>
-            </button>
+  <button
+    className="new-meeting-button"
+    onClick={() => navigate("/new-meeting")}
+  >
+    + New Meeting
+  </button>
 
-            <button
-              className="new-meeting-button"
-              onClick={() => navigate("/new-meeting")}
-            >
-              + New Meeting
-            </button>
-
-          </div>
+</div>
 
         </header>
 
@@ -354,7 +405,7 @@ const insightDescription =
 
         <p>Total meetings</p>
 
-        <h2>{totalMeetings}</h2>
+        <h2>{loading ? "—" : totalMeetings}</h2>
 
         <span className="neutral">
           Across your workspace
@@ -378,12 +429,12 @@ const insightDescription =
 
       <div className="stat-content">
 
-       <h2>{totalTasks}</h2>
+       <h2>{loading ? "—" : totalTasks}</h2>
        <p>Action items</p>
 
         <span className="warning">
-          {pendingTasks} need attention
-        </span>
+  {loading ? "Loading..." : `${pendingTasks} need attention`}
+</span>
 
       </div>
 
@@ -405,7 +456,7 @@ const insightDescription =
 
         <p>Decisions made</p>
 
-        <h2>{totalDecisions}</h2>
+        <h2>{loading ? "—" : totalDecisions}</h2>
 
         <span className="positive">
       Decisions across meetings
@@ -431,7 +482,7 @@ const insightDescription =
 
         <p>Meeting time</p>
 
-        <h2>{totalMeetingHours}h</h2>
+        <h2>{loading ? "—" : `${totalMeetingHours}h`}</h2>
 
         <span className="neutral">
           Across your meetings
@@ -480,15 +531,36 @@ const insightDescription =
 
   <div className="meeting-list">
 
-    {meetings
-  .slice()
-  .sort(
-    (a, b) =>
-      new Date(b.createdAt) -
-      new Date(a.createdAt)
-  )
-  .slice(0, 5)
-  .map((meeting) => {
+  {loading ? (
+    <div className="dashboard-empty-state">
+      <p>Loading recent meetings...</p>
+    </div>
+  ) : meetings.length === 0 ? (
+    <div className="dashboard-empty-state">
+      <Calendar size={28} />
+      <h3>No meetings yet</h3>
+      <p>
+        Create your first meeting to start generating
+        AI-powered insights.
+      </p>
+
+      <button
+        onClick={() => navigate("/new-meeting")}
+      >
+        Create meeting
+        <ArrowRight size={15} />
+      </button>
+    </div>
+  ) : (
+    meetings
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt) -
+          new Date(a.createdAt)
+      )
+      .slice(0, 5)
+      .map((meeting) => {
 
         const actionCount =
           Array.isArray(meeting.aiActionItems)
@@ -515,9 +587,7 @@ const insightDescription =
 
             <div className="meeting-info">
 
-              <h3>
-                {meeting.title}
-              </h3>
+              <h3>{meeting.title}</h3>
 
               <p>
                 {new Date(
@@ -557,9 +627,10 @@ const insightDescription =
 
           </div>
         );
-      })}
+      })
+  )}
 
-  </div>
+</div>
 
 </div>
 
@@ -662,6 +733,79 @@ const insightDescription =
 </section>
 
       </main>
+
+
+      {showSettings && (
+  <div
+    className="settings-overlay"
+    onClick={() => setShowSettings(false)}
+  >
+    <div
+      className="settings-panel"
+      onClick={(event) => event.stopPropagation()}
+    >
+
+      <div className="settings-header">
+
+        <div>
+          <h2>Settings</h2>
+          <p>Manage your MeetMind workspace.</p>
+        </div>
+
+        <button
+          onClick={() => setShowSettings(false)}
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div className="settings-section">
+
+        <h3>Account</h3>
+
+        <div className="settings-item">
+          <span>Name</span>
+          <strong>{userName}</strong>
+        </div>
+
+        <div className="settings-item">
+          <span>Workspace</span>
+          <strong>MeetMind Team</strong>
+        </div>
+
+      </div>
+
+      <div className="settings-section">
+
+        <h3>Application</h3>
+
+        <div className="settings-item">
+          <span>AI Analysis</span>
+          <span className="settings-status">
+            Enabled
+          </span>
+        </div>
+
+        <div className="settings-item">
+          <span>AI Search</span>
+          <span className="settings-status">
+            Enabled
+          </span>
+        </div>
+
+      </div>
+
+      <button
+        className="settings-close-button"
+        onClick={() => setShowSettings(false)}
+      >
+        Close
+      </button>
+
+    </div>
+  </div>
+)}
 
     </div>
   );

@@ -25,45 +25,35 @@ function MeetingDetailsPage() {
   const [meeting, setMeeting] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [taskUpdateError, setTaskUpdateError] = useState("");
 
   useEffect(() => {
 
     const fetchMeeting = async () => {
+  try {
+    setLoading(true);
+    setError("");
 
-      try {
+    const response = await api.get(
+      `/meetings/${meetingId}`
+    );
 
-        setLoading(true);
-        setError("");
+    setMeeting(response.data.meeting);
 
-        const response =
-          await api.get(
-            `/meetings/${meetingId}`
-          );
+  } catch (error) {
+    console.error(
+      "Meeting details error:",
+      error.response?.data || error
+    );
 
-        setMeeting(
-          response.data.meeting
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Meeting details error:",
-          error.response?.data || error
-        );
-
-        setError(
-          error.response?.data?.message ||
-          "Failed to load meeting details."
-        );
-
-      } finally {
-
-        setLoading(false);
-
-      }
-
-    };
+    setError(
+      error.response?.data?.message ||
+      "Failed to load meeting details."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
 
     if (meetingId) {
@@ -114,13 +104,14 @@ const handleTaskStatusChange = async (
   taskId,
   status
 ) => {
-
   try {
+    setTaskUpdateError("");
 
     const workspaceId =
       localStorage.getItem("workspaceId");
 
     if (!workspaceId) {
+      setTaskUpdateError("No workspace selected.");
       return;
     }
 
@@ -131,10 +122,8 @@ const handleTaskStatusChange = async (
       }
     );
 
-    // Update task locally
     setMeeting((prev) => ({
       ...prev,
-
       tasks: prev.tasks.map((task) =>
         task.id === taskId
           ? {
@@ -143,18 +132,19 @@ const handleTaskStatusChange = async (
             }
           : task
       ),
-
     }));
 
   } catch (error) {
-
     console.error(
       "Task status update error:",
       error.response?.data || error
     );
 
+    setTaskUpdateError(
+      error.response?.data?.message ||
+      "Failed to update task status."
+    );
   }
-
 };
 
 
@@ -179,30 +169,33 @@ const handleTaskStatusChange = async (
 
 
   if (error || !meeting) {
+  return (
+    <div className="meeting-details-error">
+      <h2>Something went wrong</h2>
 
-    return (
-      <div className="meeting-details-error">
+      <p>
+        {error || "Meeting not found."}
+      </p>
 
-        <h2>
-          Something went wrong
-        </h2>
-
-        <p>
-          {error || "Meeting not found."}
-        </p>
+      <div className="meeting-error-actions">
+        <button
+          type="button"
+          onClick={fetchMeeting}
+        >
+          Try again
+        </button>
 
         <button
-          onClick={() =>
-            navigate("/meetings")
-          }
+          type="button"
+          className="secondary-error-button"
+          onClick={() => navigate("/meetings")}
         >
           Back to meetings
         </button>
-
       </div>
-    );
-
-  }
+    </div>
+  );
+}
 
 
   const actionItems =
@@ -237,11 +230,10 @@ const handleTaskStatusChange = async (
       <div className="meeting-details-header">
 
         <button
-          className="meeting-back-button"
-          onClick={() =>
-            navigate("/meetings")
-          }
-        >
+  type="button"
+  className="meeting-back-button"
+  onClick={() => navigate("/meetings")}
+>
           <ArrowLeft size={16} />
           Back to meetings
         </button>
@@ -262,8 +254,8 @@ const handleTaskStatusChange = async (
 
             {meeting.description && (
               <p>
-                {meeting.description}
-              </p>
+  AI-generated insights from this meeting.
+</p>
             )}
 
           </div>
@@ -336,7 +328,14 @@ const handleTaskStatusChange = async (
           </div>
 
         </section>
-
+{taskUpdateError && (
+  <div
+    className="task-update-error"
+    role="alert"
+  >
+    {taskUpdateError}
+  </div>
+)}
 
         {/* Action Items */}
 

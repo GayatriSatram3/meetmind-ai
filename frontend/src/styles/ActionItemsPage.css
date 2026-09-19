@@ -351,3 +351,33 @@
   background: #e7f7ee;
   color: #24784b;
 }
+
+.tasks-loading h3 {
+  margin: 0;
+  color: #25212d;
+}
+
+.tasks-loading p {
+  margin: 0;
+  color: #77717f;
+  text-align: center;
+}
+
+.tasks-loading button {
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: #17151f;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.status-select {
+  transition: 0.2s ease;
+}
+
+.status-select:hover {
+  filter: brightness(0.97);
+}

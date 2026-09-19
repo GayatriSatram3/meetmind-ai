@@ -1054,3 +1054,93 @@
   }
 
 }
+
+.analytics-error button {
+  margin-top: 16px;
+
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.analytics-error button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.analytics-meeting:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.analytics-empty {
+  padding: 45px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  background: #fff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+
+  color: #888;
+}
+
+.analytics-empty h3 {
+  margin: 12px 0 5px;
+
+  color: #222;
+  font-size: 16px;
+}
+
+.analytics-empty p {
+  margin: 0;
+
+  max-width: 400px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.analytics-empty button {
+  margin-top: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 9px 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 9px;
+
+  background: #fff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.analytics-card:hover .analytics-card-icon {
+  background: #ededed;
+}
+
+.analytics-card-icon {
+  transition: background 0.2s ease;
+}

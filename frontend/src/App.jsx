@@ -5,7 +5,6 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import NewMeetingPage from "./pages/NewMeetingPage";
 import TranscriptMeetingPage from "./pages/TranscriptMeetingPage";
-import MeetingIntelligencePage from "./pages/MeetingIntelligencePage";
 import ActionItemsPage from "./pages/ActionItemsPage";
 import MeetingsPage from "./pages/MeetingsPage";
 import DecisionsPage from "./pages/DecisionsPage";
@@ -14,7 +13,8 @@ import AskAIPage from "./pages/AskAIPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import MembersPage from "./pages/MembersPage";
 import MeetingDetailsPage from "./pages/MeetingDetailsPage";
-
+import NotesMeetingPage from "./pages/NotesMeetingPage";
+import AudioMeetingPage from "./pages/AudioMeetingPage";
 
 function App() {
   return (
@@ -52,6 +52,11 @@ function App() {
         />
 
         <Route
+          path="/new-meeting/notes"
+          element={<NotesMeetingPage />}
+        />
+
+        <Route
           path="/meetings/:meetingId"
           element={<MeetingDetailsPage />}
         />
@@ -75,7 +80,7 @@ function App() {
           path="/smart-search"
           element={<SmartSearchPage />}
         />
-        
+
         <Route
           path="/ask-ai"
           element={<AskAIPage />}
@@ -91,10 +96,9 @@ function App() {
           element={<MembersPage />}
         />
 
-
         <Route
-          path="/meetings/:meetingId"
-          element={<MeetingDetailsPage />}
+          path="/new-meeting/audio"
+          element={<AudioMeetingPage />}
         />
 
       </Routes>

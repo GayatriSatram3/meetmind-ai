@@ -18,54 +18,57 @@ function TranscriptMeetingPage() {
   const [title, setTitle] = useState("");
   const [transcript, setTranscript] = useState("");
   const [duration, setDuration] = useState("");
-
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+  setError("");
 
-  if (!title || !transcript || !duration) {
-  alert("Please enter meeting title, transcript and duration");
-  return;
-}
+  if (!title.trim()) {
+    setError("Please enter a meeting title.");
+    return;
+  }
+
+  if (!duration) {
+    setError("Please select the meeting duration.");
+    return;
+  }
+
+  if (!transcript.trim()) {
+    setError("Please enter the meeting transcript.");
+    return;
+  }
 
   try {
-
     const workspaceId = localStorage.getItem("workspaceId");
 
     if (!workspaceId) {
-      alert("No workspace selected");
+      setError("No workspace selected.");
       return;
     }
 
     const response = await api.post(
-  `/meetings/${workspaceId}`,
-  {
-    title: title,
-    description: transcript,
-    duration: Number(duration),
-  }
-);
-
-    console.log("Meeting created:", response.data);
-
-
-    navigate(
-      `/meetings/${response.data.meeting.id}`
+      `/meetings/${workspaceId}`,
+      {
+        title: title.trim(),
+        description: transcript.trim(),
+        duration: Number(duration),
+      }
     );
 
-  } catch (error) {
+    navigate(`/meetings/${response.data.meeting.id}`);
 
+  } catch (error) {
     console.error(
       "Create meeting error:",
       error.response?.data || error
     );
 
-    alert(
+    setError(
       error.response?.data?.message ||
-      "Failed to create meeting"
+      "Failed to create meeting. Please try again."
     );
-
   }
-
 };
 
   return (
@@ -245,6 +248,12 @@ Gayatri: Great. Let's review the progress on Thursday."
           </div>
 
 
+          {error && (
+  <div className="transcript-error" role="alert">
+    {error}
+  </div>
+)}
+
 
           {/* AI INFO */}
 
@@ -274,15 +283,15 @@ Gayatri: Great. Let's review the progress on Thursday."
           {/* BUTTON */}
 
           <button
-            className="analyze-button"
-            onClick={handleSubmit}
-          >
+  type="button"
+  className="analyze-button"
+  onClick={handleSubmit}
+  disabled={loading}
+>
+  {loading ? "Analyzing meeting..." : "Analyze with AI"}
 
-            Analyze with AI
-
-            <ArrowRight size={18} />
-
-          </button>
+  {!loading && <ArrowRight size={18} />}
+</button>
 
 
         </div>

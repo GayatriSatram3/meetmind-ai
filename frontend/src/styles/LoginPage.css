@@ -270,3 +270,111 @@
   }
 
 }
+
+.auth-input-group input:focus,
+.password-input input:focus {
+  border-color: #71995a;
+  box-shadow: 0 0 0 3px rgba(113, 153, 90, 0.1);
+}
+
+.auth-submit-button:focus-visible,
+.password-input button:focus-visible,
+.auth-logo:focus-visible,
+.auth-switch a:focus-visible {
+  outline: 3px solid rgba(113, 153, 90, 0.25);
+  outline-offset: 3px;
+}
+
+.login-form-container .auth-submit-button {
+  background: #1f2520;
+}
+
+.login-form-container .auth-submit-button {
+  background: #1f2520;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.login-form-container .auth-submit-button:hover:not(:disabled) {
+  background: #303b32;
+  transform: translateY(-1px);
+}
+
+.login-form-container .auth-submit-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+@media (max-width: 500px) {
+
+  .login-showcase {
+    min-height: 420px;
+    padding: 30px 22px;
+  }
+
+  .login-content {
+    margin-top: 60px;
+  }
+
+  .login-content h1 {
+    font-size: 44px;
+    letter-spacing: -2px;
+  }
+
+  .login-form-section {
+    padding: 45px 22px;
+  }
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #6b7280;
+
+  cursor: pointer;
+
+  border-radius: 7px;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #20252a;
+  background: #f1f2ef;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid rgba(118, 81, 214, 0.35);
+  outline-offset: 2px;
+}

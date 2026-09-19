@@ -20,7 +20,7 @@ function DecisionsPage() {
   const [meetings, setMeetings] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchMeetings();
@@ -28,38 +28,38 @@ function DecisionsPage() {
 
 
   const fetchMeetings = async () => {
+  setLoading(true);
+  setError("");
 
-    try {
+  try {
+    const workspaceId = localStorage.getItem("workspaceId");
 
-      const workspaceId =
-        localStorage.getItem("workspaceId");
-
-      if (!workspaceId) {
-        return;
-      }
-
-      const response = await api.get(
-        `/meetings/workspace/${workspaceId}`
-      );
-
-      setMeetings(
-        response.data.meetings || []
-      );
-
-    } catch (error) {
-
-      console.error(
-        "Failed to fetch decisions:",
-        error.response?.data || error
-      );
-
-    } finally {
-
-      setLoading(false);
-
+    if (!workspaceId) {
+      setError("No workspace selected.");
+      return;
     }
 
-  };
+    const response = await api.get(
+      `/meetings/workspace/${workspaceId}`
+    );
+
+    setMeetings(response.data.meetings || []);
+
+  } catch (error) {
+    console.error(
+      "Failed to fetch decisions:",
+      error.response?.data || error
+    );
+
+    setError(
+      error.response?.data?.message ||
+      "Failed to load decisions. Please try again."
+    );
+
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   const decisions = meetings.flatMap(
@@ -155,26 +155,31 @@ function DecisionsPage() {
           <Search size={18} />
 
           <input
-            type="text"
-            placeholder="Search decisions..."
-            value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-          />
+  type="text"
+  aria-label="Search decisions"
+  placeholder="Search decisions..."
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+/>
 
         </div>
 
 
         <span className="decision-count">
-
-          {filteredDecisions.length}
-          {" "}
-          {filteredDecisions.length === 1
-            ? "decision"
-            : "decisions"}
-
-        </span>
+  {search
+    ? `${filteredDecisions.length} ${
+        filteredDecisions.length === 1
+          ? "result"
+          : "results"
+      }`
+    : `${decisions.length} ${
+        decisions.length === 1
+          ? "decision"
+          : "decisions"
+      }`}
+</span>
 
       </div>
 
@@ -186,17 +191,40 @@ function DecisionsPage() {
 
         {loading ? (
 
-          <div className="decisions-empty">
+  <div className="decisions-empty">
 
-            <GitBranch size={32} />
+    <GitBranch size={32} />
 
-            <h3>
-              Loading decisions...
-            </h3>
+    <h3>
+      Loading decisions...
+    </h3>
 
-          </div>
+  </div>
 
-        ) : filteredDecisions.length === 0 ? (
+) : error ? (
+
+  <div className="decisions-empty">
+
+    <GitBranch size={34} />
+
+    <h3>
+      Couldn't load decisions
+    </h3>
+
+    <p>
+      {error}
+    </p>
+
+    <button
+      className="retry-btn"
+      onClick={fetchMeetings}
+    >
+      Try Again
+    </button>
+
+  </div>
+
+) : filteredDecisions.length === 0 ? (
 
           <div className="decisions-empty">
 
@@ -224,9 +252,9 @@ function DecisionsPage() {
               (item, index) => (
 
                 <div
-                  className="decision-card"
-                  key={item.id}
-                >
+  className="decision-card"
+  key={item.id}
+>
 
                   <div className="decision-number">
 

@@ -21,61 +21,66 @@ function SmartSearchPage() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchMode, setSearchMode] = useState("semantic");
+  const [error, setError] = useState("");
 
   const performSearch = async (
-    value,
-    mode = searchMode
-  ) => {
-    setQuery(value);
+  value,
+  mode = searchMode
+) => {
+  setQuery(value);
+  setError("");
 
-    if (!value.trim()) {
+  if (!value.trim()) {
+    setResults([]);
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const workspaceId =
+      localStorage.getItem("workspaceId");
+
+    if (!workspaceId) {
+      setError("No workspace selected.");
       setResults([]);
       return;
     }
 
-    try {
-      setLoading(true);
+    const endpoint =
+      mode === "semantic"
+        ? `/search/semantic/${workspaceId}`
+        : `/search/meetings/${workspaceId}`;
 
-      const workspaceId =
-        localStorage.getItem("workspaceId");
+    const response = await api.get(endpoint, {
+      params: {
+        q: value,
+      },
+    });
 
-      if (!workspaceId) {
-        console.error("Workspace ID not found");
-        return;
-      }
+    setResults(
+      response.data.results ||
+      response.data.meetings ||
+      []
+    );
 
-      const endpoint =
-        mode === "semantic"
-          ? `/search/semantic/${workspaceId}`
-          : `/search/meetings/${workspaceId}`;
+  } catch (error) {
+    console.error(
+      "Search error:",
+      error.response?.data || error
+    );
 
-      const response = await api.get(
-        endpoint,
-        {
-          params: {
-            q: value,
-          },
-        }
-      );
+    setResults([]);
 
-      setResults(
-        response.data.results ||
-        response.data.meetings ||
-        []
-      );
+    setError(
+      error.response?.data?.message ||
+      "Search failed. Please try again."
+    );
 
-    } catch (error) {
-      console.error(
-        "Search error:",
-        error.response?.data || error
-      );
-
-      setResults([]);
-
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="smart-search-page">
@@ -114,7 +119,8 @@ function SmartSearchPage() {
         <Search size={22} />
 
         <input
-          type="text"
+  type="text"
+  aria-label="Search meetings"
           placeholder="Search meetings, decisions, tasks..."
           value={query}
           onChange={(e) =>
@@ -251,12 +257,12 @@ function SmartSearchPage() {
               </span>
 
               <h2>
-                {results.length}{" "}
-                {results.length === 1
-                  ? "meeting"
-                  : "meetings"}{" "}
-                found
-              </h2>
+  {results.length}{" "}
+  {results.length === 1
+    ? "result"
+    : "results"}{" "}
+  found
+</h2>
 
             </div>
 
@@ -267,11 +273,46 @@ function SmartSearchPage() {
 
           {loading ? (
 
-            <div className="search-empty">
-              Searching meetings...
-            </div>
+  <div className="search-empty">
+    <Search size={32} />
 
-          ) : results.length === 0 ? (
+    <h3>
+      Searching meetings...
+    </h3>
+
+    <p>
+      {searchMode === "semantic"
+        ? "Finding meetings by meaning..."
+        : "Finding meetings by keyword..."}
+    </p>
+  </div>
+
+) : error ? (
+
+  <div className="search-empty">
+
+    <Search size={32} />
+
+    <h3>
+      Search failed
+    </h3>
+
+    <p>
+      {error}
+    </p>
+
+    <button
+      className="retry-search-btn"
+      onClick={() =>
+        performSearch(query, searchMode)
+      }
+    >
+      Try Again
+    </button>
+
+  </div>
+
+) : results.length === 0 ? (
 
             <div className="search-empty">
 
@@ -313,14 +354,19 @@ function SmartSearchPage() {
                 return (
 
                   <div
-                    className="search-result-card"
-                    key={meeting.id}
-                    onClick={() =>
-                      navigate(
-                        `/meetings/${meeting.id}`
-                      )
-                    }
-                  >
+  className="search-result-card"
+  key={meeting.id}
+  role="button"
+  tabIndex={0}
+  onClick={() =>
+    navigate(`/meetings/${meeting.id}`)
+  }
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      navigate(`/meetings/${meeting.id}`);
+    }
+  }}
+>
 
                     <div className="result-icon">
                       <FileText size={20} />
@@ -360,11 +406,13 @@ function SmartSearchPage() {
                         meeting.similarity !== undefined && (
 
                           <div className="similarity-score">
+  <Sparkles size={13} />
 
-                            🧠 Semantic relevance:{" "}
-                            {meeting.similarity.toFixed(3)}
-
-                          </div>
+  Semantic relevance
+  <strong>
+    {meeting.similarity.toFixed(3)}
+  </strong>
+</div>
 
                       )}
 
