@@ -40,6 +40,47 @@ function AnalyticsPage() {
   const [aiSummaryLoading, setAiSummaryLoading] = useState(true);
   const [aiSummaryError, setAiSummaryError] = useState("");
 
+// FETCH ANALYTICS DATA
+useEffect(() => {
+    const fetchAnalytics = async () => {
+        try {
+            setLoading(true);
+            setError("");
+
+            const workspaceId = localStorage.getItem("workspaceId");
+
+            if (!workspaceId) {
+                throw new Error("No workspace found");
+            }
+
+            const response = await api.get(
+                `/analytics/${workspaceId}`
+            );
+
+            console.log("Analytics response:", response.data);
+
+            setAnalytics(response.data);
+
+        } catch (error) {
+            console.error(
+                "Analytics error:",
+                error.response?.data || error
+            );
+
+            setError(
+                error.response?.data?.message ||
+                error.message ||
+                "Failed to load analytics"
+            );
+
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchAnalytics();
+}, []);
+
 
 // AI SUMMARY
 
