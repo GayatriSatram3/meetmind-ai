@@ -1,0 +1,310 @@
+1️⃣ "Tell me about your MeetMindAI project."
+
+"MeetMindAI is a full-stack AI-powered meeting intelligence platform that I built to convert unstructured meeting information into actionable insights.
+Users can create meetings using transcripts, notes, or audio recordings. For audio meetings, I use Whisper for speech-to-text, and then the transcript is analyzed using an LLM to extract the meeting summary, action items, responsibilities, deadlines, and decisions.
+I also implemented semantic meeting search using a local MiniLM embedding model. Meeting content is converted into 384-dimensional embeddings, and I use cosine similarity to retrieve semantically relevant meetings.
+On top of that, I built a workspace-scoped RAG-based AI assistant. When a user asks a question about previous meetings, the system retrieves the most relevant meetings, constructs context from them, and sends that context to the LLM to generate a grounded answer with source meetings.
+The backend is built using Node.js and Express, with PostgreSQL and Prisma for persistence. I implemented JWT authentication and workspace-level authorization. The frontend uses React and Vite.
+I deployed the frontend on Vercel, the backend on Render, and the database on Neon PostgreSQL."**
+
+2️⃣ "Can you explain the architecture?"
+
+"The frontend is built with React and Vite and deployed on Vercel. It communicates with my Node.js and Express backend through REST APIs. The backend handles authentication, workspace authorization, meetings, tasks, semantic search, RAG, and analytics.
+PostgreSQL on Neon stores users, workspaces, meetings, tasks, AI analysis, and embeddings, with Prisma acting as the ORM.
+For AI processing, I use Whisper for audio transcription, OpenRouter for LLM-based analysis and RAG generation, and Transformers.js with MiniLM for local embeddings.
+The backend is deployed on Render."
+
+Then draw this mentally:
+                    USER
+                      │
+                      ▼
+              React + Vite
+                  Vercel
+                      │
+                  REST API
+                      │
+                      ▼
+             Node.js + Express
+                  Render
+                      │
+          ┌───────────┼───────────┐
+          │           │           │
+          ▼           ▼           ▼
+      PostgreSQL   OpenRouter   Whisper
+       + Prisma       LLM
+          │
+          ▼
+       MiniLM
+     Embeddings
+          │
+          ▼
+  Cosine Similarity
+          │
+          ▼
+         RAG
+
+3️⃣ "Why did you use RAG?"
+
+"I used RAG because a general-purpose LLM doesn't automatically know the contents of a user's meetings.
+Instead of sending the entire meeting history to the model every time, I first retrieve the meetings that are semantically relevant to the user's question. I then provide those meetings as context to the LLM.
+This makes the response grounded in the user's actual meeting data and also reduces the amount of irrelevant information sent to the model."
+
+If they ask:
+"Why not just send all meetings to the LLM?"
+Say:
+"That wouldn't scale well because the amount of meeting data can become very large. It would also increase token usage and introduce more irrelevant context. Retrieval allows us to send only the most relevant information."
+
+4️⃣ "How does semantic search work?"
+
+"Instead of comparing the exact words in the search query, I convert both the query and meeting content into numerical vector representations called embeddings.
+I use the MiniLM model through Transformers.js to generate 384-dimensional embeddings. I then calculate cosine similarity between the query embedding and stored meeting embeddings.
+Meetings with higher similarity scores are considered more relevant, and I return the most relevant meetings to the user."
+
+Simple example
+Suppose the database contains:
+Meeting 1:
+"We decided to release the product next Monday."
+
+Meeting 2:
+"Rahul will finish authentication testing Thursday."
+User searches:
+"When are we launching?"
+Even though "launching" isn't exactly the same word as "release", their meanings are similar.
+Embeddings capture that semantic relationship.
+"when are we launching?"
+          ↓
+       vector
+          ↓
+ cosine similarity
+          ↓
+"release the product next Monday"
+          ↓
+       high match
+That's why it's called semantic search.
+
+5️⃣ "Why did you use local embeddings?"
+
+"Initially I considered using an external embedding API, but that introduced API cost and dependency on an external embedding service. So I used the MiniLM model through Transformers.js to generate embeddings locally.
+It produces 384-dimensional vectors and works well for the semantic search requirements of my project.
+It also allowed me to generate embeddings without making an external API request for every meeting or search query."
+
+Follow-up:
+"Why didn't you use a vector database?"
+Your answer:
+"For the current scale of the project, I stored the embeddings as JSON in PostgreSQL and calculated cosine similarity in the application layer. This kept the architecture simpler.
+At larger scale, I would consider using PostgreSQL with pgvector or a dedicated vector database to make similarity search more efficient."
+
+6️⃣ "How does audio transcription work?"
+
+Your actual implementation:
+Audio file
+    ↓
+Multer
+    ↓
+Temporary upload
+    ↓
+FFmpeg
+    ↓
+16kHz Mono WAV
+    ↓
+WaveFile
+    ↓
+Float32Array
+    ↓
+Whisper
+    ↓
+Transcript
+    ↓
+AI Analysis
+
+"When a user uploads an audio file, Multer handles the upload on the backend. I then use FFmpeg to convert the audio into a 16 kHz mono WAV format suitable for the speech recognition model.
+I read the WAV data and convert it into a Float32Array, which is passed to the Whisper model through Transformers.js.
+Whisper generates the transcript, and that transcript is then passed to my AI analysis pipeline to extract the meeting summary, action items, decisions, responsibilities, and deadlines."
+
+7️⃣ "Why PostgreSQL?"
+
+"My application has strongly related entities such as users, workspaces, workspace members, meetings, and tasks. PostgreSQL was a good fit because these relationships are naturally relational.
+For example, a workspace contains members and meetings, and meetings can have multiple tasks. PostgreSQL allows me to model these relationships reliably.
+I used Prisma as the ORM because it provides schema management, migrations, and convenient database access from Node.js."
+
+8️⃣ "How does JWT authentication work?"
+
+Your flow:
+REGISTER
+   ↓
+Password → bcrypt hash
+   ↓
+Store user
+
+LOGIN
+   ↓
+Verify email/password
+   ↓
+Generate JWT
+   ↓
+Return token
+   ↓
+Frontend stores token
+   ↓
+Axios sends:
+Authorization: Bearer <token>
+   ↓
+Backend middleware
+   ↓
+jwt.verify()
+   ↓
+req.user
+
+"During registration, I hash the user's password using bcrypt before storing it.
+During login, I verify the email and password and generate a JWT containing the user's identity.
+The frontend sends that token in the Authorization header using the Bearer scheme for protected requests.
+My authentication middleware verifies the token using the JWT secret. If it is valid, I attach the decoded user information to req.user, and the request continues. Otherwise, the backend returns a 401 response."
+
+9️⃣ "How do workspace permissions work?"
+
+"Authentication tells me who the user is, but I also need authorization to determine what that user can access.
+I implemented workspace-level authorization using a WorkspaceMember relationship between users and workspaces.
+For protected operations, the backend first authenticates the JWT and identifies the user. Then it checks whether that user is a member of the requested workspace.
+Only after that membership check does the backend allow access to workspace meetings, tasks, search results, or RAG context."
+
+Remember:
+Authentication
+= WHO are you?
+
+Authorization
+= WHAT are you allowed to access?
+
+🔟 "How does the AI extract action items?"
+
+"I send the meeting transcript to the LLM with a structured system prompt. The prompt explicitly asks the model to return JSON containing the summary, action items, decisions, and responsibilities.
+For each action item, I ask the model to identify the task, owner, and deadline when those details are explicitly present.
+I also instruct the model not to invent owners or deadlines.
+After receiving the response, I remove any markdown code fences if necessary, parse the JSON, and then create Task records in PostgreSQL from the extracted action items."
+
+1️⃣1️⃣ "How exactly does your RAG pipeline retrieve context?"
+
+"When the user asks a question, I first generate an embedding for the question using the same MiniLM embedding model used for the meeting data.
+I retrieve meetings that belong to the user's workspace and already have embeddings.
+I calculate cosine similarity between the question embedding and each meeting embedding, rank the meetings by similarity, and select the most relevant ones.
+I then construct a context from the selected meetings, including their titles, descriptions or transcripts, summaries, action items, and decisions.
+That context is passed to the LLM along with instructions to answer only using the retrieved meeting information.
+The response can also include the source meetings so the user can see where the answer came from."
+
+One crucial detail:
+Your RAG is:
+Question
+   ↓
+Embedding
+   ↓
+Similarity Search
+   ↓
+Top Relevant Meetings
+   ↓
+Context
+   ↓
+LLM
+   ↓
+Answer
+Retrieval happens before generation.
+That's the core idea of RAG.
+
+1️⃣2️⃣ "What happens when the AI hallucinates?"
+
+"I can't guarantee that an LLM will never hallucinate, so I designed the RAG pipeline to reduce the possibility.
+The model is instructed to treat the retrieved meeting context as the factual source and not invent information. If the required information isn't present in the retrieved context, the system should indicate that it wasn't found rather than making up an answer.
+I also return source meetings with the answer, which gives the user a way to verify where the response came from."
+
+If interviewer pushes:
+"Is that enough?"
+Say:
+"For a production system, I would add stronger evaluation and validation mechanisms, such as retrieval quality evaluation, structured output validation, confidence thresholds, better reranking, and potentially human verification for high-impact actions."
+
+1️⃣3️⃣ "What would you change at scale?"
+
+Don't say:
+"I would use Kubernetes."
+
+"At larger scale, I would first improve the retrieval layer. Currently, embeddings are stored as JSON in PostgreSQL and cosine similarity is calculated in the application layer. That wouldn't be efficient for a very large number of meetings.
+I would move to PostgreSQL with pgvector or a dedicated vector database and perform vector similarity search directly in the database.
+I would also move audio processing and embedding generation to asynchronous background workers because transcription and embedding generation are computationally expensive operations.
+I would introduce object storage such as S3 for uploaded audio instead of keeping files on the application server.
+For the backend, I would add caching, connection pooling, monitoring, centralized logging, and horizontal scaling.
+I would also introduce stronger rate limiting and more comprehensive observability."
+
+🧠 Your MeetMindAI "mental map"
+
+                    MEETMINDAI
+                        │
+        ┌───────────────┼────────────────┐
+        │               │                │
+        ▼               ▼                ▼
+    MEETINGS          TASKS           WORKSPACE
+        │
+        ▼
+   ┌────────────┐
+   │ AI ANALYSIS│
+   └─────┬──────┘
+         │
+    ┌────┼───────────┐
+    ▼    ▼           ▼
+ Summary Actions   Decisions
+         │
+         ▼
+       Tasks
+
+
+AUDIO
+  │
+  ▼
+FFmpeg
+  │
+  ▼
+Whisper
+  │
+  ▼
+Transcript
+  │
+  ▼
+AI Analysis
+
+
+MEETING
+  │
+  ▼
+MiniLM
+  │
+  ▼
+Embedding
+  │
+  ▼
+PostgreSQL
+  │
+  ▼
+Cosine Similarity
+  │
+  ▼
+Semantic Search
+
+
+QUESTION
+  │
+  ▼
+MiniLM
+  │
+  ▼
+Embedding
+  │
+  ▼
+Similarity Search
+  │
+  ▼
+Relevant Meetings
+  │
+  ▼
+Context
+  │
+  ▼
+OpenRouter LLM
+  │
+  ▼
+Grounded Answer
